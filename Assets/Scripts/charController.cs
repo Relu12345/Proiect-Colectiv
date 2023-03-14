@@ -1,61 +1,47 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
-[RequireComponent(typeof(CharacterController))]
 public class charController : MonoBehaviour
 {
 
-	public float movementSpeed = 5.0f;
-	public float mouseSensitivity = 5.0f;
+    public float transitionSpeed = 3f, transitionRotationSpeed = 3f;
 
-	float verticalRotation = 0;
-	public float upDownRange = 90.0f;
+    Vector3 targetGridPos, targetRotation;
 
-	float verticalVelocity = 0;
+    private void Start()
+    {
+        targetGridPos = Vector3Int.RoundToInt(transform.position);
+    }
 
-	CharacterController characterController;
+    private void FixedUpdate()
+    {
+        MovePlayer();
+    }
 
-	private void OnCollisionEnter(Collision col)
-	{
-		if (col.collider.tag == "Arcade")
-		{
-			Cursor.lockState = CursorLockMode.None;
-			SceneManager.LoadScene("joculet 2d");
-		}
+    void MovePlayer()
+    {
+        Vector3 targetPosition = targetGridPos;
 
-		if (col.collider.tag == "Usa")
-		{
-			Debug.Log("iesi joc");
-			Application.Quit();
-		}
-	}
+        if (targetRotation.y > 270f && targetRotation.y < 361f) targetRotation.y = 0f;
+        if (targetRotation.y < 0f) targetRotation.y = 270f;
 
-	void Start()
-	{
-		Cursor.lockState = CursorLockMode.Locked;
-		characterController = GetComponent<CharacterController>();
-	}
+        transform.position = Vector3.MoveTowards(transform.position, targetPosition, Time.deltaTime * transitionSpeed);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(targetRotation), Time.deltaTime * transitionRotationSpeed);
+    }
 
-	void Update()
-	{
-		float rotLeftRight = Input.GetAxis("Mouse X") * mouseSensitivity;
-		transform.Rotate(0, rotLeftRight, 0);
+    public void RotateLeft() { if (AtRest) targetRotation -= Vector3.up * 90f; }
+    public void RotateRight() { if (AtRest) targetRotation += Vector3.up * 90f; }
+    public void MoveForward() { if (AtRest) targetGridPos += transform.forward * 2; }
+    public void MoveBackward() { if (AtRest) targetGridPos -= transform.forward * 2; }
+ 
 
-		verticalRotation -= Input.GetAxis("Mouse Y") * mouseSensitivity;
-		verticalRotation = Mathf.Clamp(verticalRotation, -upDownRange, upDownRange);
-		Camera.main.transform.localRotation = Quaternion.Euler(verticalRotation, 0, 0);
-
-		float forwardSpeed = Input.GetAxis("Vertical") * movementSpeed;
-		float sideSpeed = Input.GetAxis("Horizontal") * movementSpeed;
-
-		verticalVelocity += Physics.gravity.y * Time.deltaTime;
-
-		Vector3 speed = new Vector3(sideSpeed, verticalVelocity, forwardSpeed);
-
-		speed = transform.rotation * speed;
-
-		characterController.Move(speed * Time.deltaTime);
-	}
+    bool AtRest
+    {
+        get
+        {
+            return (Vector3.Distance(transform.position, targetGridPos) < 0.05f) && (Vector3.Distance(transform.eulerAngles, targetRotation) < 0.05f);
+        }
+    }
 }

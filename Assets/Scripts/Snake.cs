@@ -20,6 +20,7 @@ public class Snake : MonoBehaviour
 
     Vector2 dir;
 
+    public Image plaque;
     public Text points;
     public Text finalScore;
     // Start is called before the first frame update
@@ -119,6 +120,7 @@ public class Snake : MonoBehaviour
         enableTimer = true;
         finalScore.text = "Points: " + tail.Count;
         points.enabled = false;
+        plaque.enabled = false;
     }
 
     private void Reset()

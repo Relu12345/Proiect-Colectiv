@@ -3,15 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SceneChange : MonoBehaviour
+public class sceneChange : MonoBehaviour
 {
-    public void scenaSnake()
-    {
-        SceneManager.LoadScene("snake");
-    }
-
-    public void scenaArcade()
-    {
-        SceneManager.LoadScene("arcade");
+    public void LoadScene(int scene)
+    {   
+        SceneManager.LoadScene(scene);
     }
 }
