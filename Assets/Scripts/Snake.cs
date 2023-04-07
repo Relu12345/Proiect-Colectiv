@@ -1,8 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using Unity.ItemRecever;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -18,15 +22,18 @@ public class Snake : MonoBehaviour
     public Sprite[] headSprites, tailSprites;
     private Vector3 oldPosition;
 
+    public static string ips = "127.0.0.1";
+    public static int port = 1000;
+    public static IPAddress ip = IPAddress.Parse(ips);
     Vector2 dir;
 
-    public Image plaque;
+    public UnityEngine.UI.Image plaque;
     public Text points;
     public Text finalScore;
     // Start is called before the first frame update
     public void med()
     {
-        timeBetweenMovements -= 0.15f;
+        timeBetweenMovements -= 0.1f;
     }
     public void hard()
     {
@@ -38,10 +45,57 @@ public class Snake : MonoBehaviour
         Time.timeScale = 1;
         this.transform.position = new Vector3(0, 0, -10);
     }
+
+    private void OnItemReceived(object sender, EventArgs args)
+    {
+        ItemReceivedEventArgs eventArgs = (ItemReceivedEventArgs)args;
+        Debug.Log(String.Format("Received BoardItem:\tName: {0}\tOutput Text: {1}", eventArgs.BoardItem.Name, eventArgs.BoardItem.OutputText));
+
+        if (eventArgs.BoardItem.Name == "Up")
+        {
+            Debug.Log("up!!!!!!!!!!!!!!!!!1");
+            dir = Vector2.up;
+        }
+        if (eventArgs.BoardItem.Name == "Down")
+        {
+            Debug.Log("down!!!!!!!!!!!!!!!!!1");
+            dir = Vector2.down;
+        }
+        if (eventArgs.BoardItem.Name == "Left")
+        {
+            Debug.Log("left!!!!!!!!!!!!!!!!!1");
+            dir = Vector2.left;
+        }
+        if (eventArgs.BoardItem.Name == "Right")
+        {
+            Debug.Log("right!!!!!!!!!!!!!!!!!1");
+            dir = Vector2.right;
+        }
+    }
+
+    void connection(IPAddress ip, int port)
+    {
+        // Connection with Unicorn BCI
+        try
+        {
+            //Start listening for Unicorn Speller network messages
+            SpellerReceiver r = new SpellerReceiver(ip, port);
+
+            //attach items received event
+            r.OnItemReceived += OnItemReceived;
+
+            Debug.Log(String.Format("Listening to {0} on port {1}.", ip, port));
+        }
+        catch (Exception ex)
+        {
+            Debug.Log(ex.Message);
+        }
+
+    }
     void Start()
     {
         Time.timeScale = 0;
-        timeBetweenMovements = 0.5f;
+        timeBetweenMovements =0.75f;
         dir = Vector2.right;
         createGrid();
         createPlayer();
@@ -49,10 +103,11 @@ public class Snake : MonoBehaviour
         block.SetActive(false);
         block_food.SetActive(false);
         isAlive = true;
+        connection(ip, port);
     }
 
     private Vector2 getRandomPos(){
-        return new Vector2(Random.Range(-xSize/2+1, xSize/2), Random.Range(-ySize/2+1, ySize/2)); 
+        return new Vector2(UnityEngine.Random.Range(-xSize/2+1, xSize/2), UnityEngine.Random.Range(-ySize/2+1, ySize/2)); 
     }
 
     private bool containedInSnake(Vector2 spawnPos){
