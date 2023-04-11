@@ -22,23 +22,17 @@ public class Snake : MonoBehaviour
     public Sprite[] headSprites, tailSprites;
     private Vector3 oldPosition;
 
-    public static string ips = "127.0.0.1";
-    public static int port = 1000;
-    public static IPAddress ip = IPAddress.Parse(ips);
+    KeyCode W = KeyCode.W;
+    KeyCode A = KeyCode.A;
+    KeyCode S = KeyCode.S;
+    KeyCode D = KeyCode.D;
+
     Vector2 dir;
 
     public UnityEngine.UI.Image plaque;
     public Text points;
     public Text finalScore;
     // Start is called before the first frame update
-    public void med()
-    {
-        timeBetweenMovements -= 0.1f;
-    }
-    public void hard()
-    {
-        timeBetweenMovements -= 0.3f;
-    }
 
     public void ResumeGame()
     {
@@ -46,64 +40,19 @@ public class Snake : MonoBehaviour
         this.transform.position = new Vector3(0, 0, -10);
     }
 
-    private void OnItemReceived(object sender, EventArgs args)
-    {
-        ItemReceivedEventArgs eventArgs = (ItemReceivedEventArgs)args;
-        Debug.Log(String.Format("Received BoardItem:\tName: {0}\tOutput Text: {1}", eventArgs.BoardItem.Name, eventArgs.BoardItem.OutputText));
-
-        if (eventArgs.BoardItem.Name == "Up")
-        {
-            Debug.Log("up!!!!!!!!!!!!!!!!!1");
-            dir = Vector2.up;
-        }
-        if (eventArgs.BoardItem.Name == "Down")
-        {
-            Debug.Log("down!!!!!!!!!!!!!!!!!1");
-            dir = Vector2.down;
-        }
-        if (eventArgs.BoardItem.Name == "Left")
-        {
-            Debug.Log("left!!!!!!!!!!!!!!!!!1");
-            dir = Vector2.left;
-        }
-        if (eventArgs.BoardItem.Name == "Right")
-        {
-            Debug.Log("right!!!!!!!!!!!!!!!!!1");
-            dir = Vector2.right;
-        }
-    }
-
-    void connection(IPAddress ip, int port)
-    {
-        // Connection with Unicorn BCI
-        try
-        {
-            //Start listening for Unicorn Speller network messages
-            SpellerReceiver r = new SpellerReceiver(ip, port);
-
-            //attach items received event
-            r.OnItemReceived += OnItemReceived;
-
-            Debug.Log(String.Format("Listening to {0} on port {1}.", ip, port));
-        }
-        catch (Exception ex)
-        {
-            Debug.Log(ex.Message);
-        }
-
-    }
     void Start()
     {
         Time.timeScale = 0;
-        timeBetweenMovements =0.75f;
+        timeBetweenMovements =2.25f;
         dir = Vector2.right;
         createGrid();
         createPlayer();
         spawnFood(); 
+        ResumeGame();
         block.SetActive(false);
         block_food.SetActive(false);
         isAlive = true;
-        connection(ip, port);
+        UDPReceiver.msg = "";
     }
 
     private Vector2 getRandomPos(){
@@ -176,11 +125,7 @@ public class Snake : MonoBehaviour
         finalScore.text = "Points: " + tail.Count;
         points.enabled = false;
         plaque.enabled = false;
-    }
-
-    private void Reset()
-    {
-
+        UDPReceiver.msg = "";
     }
 
     public void restart(){
@@ -238,16 +183,24 @@ public class Snake : MonoBehaviour
             if (ElapsedTime < 0)
                 restart();
         }
-        if(Input.GetKey(KeyCode.S) && dir != Vector2.up){
+        if((UDPReceiver.msg == "Down" || Input.GetKey(S)) && dir != Vector2.up)
+        {
+            UDPReceiver.msg = "";
             dir = Vector2.down;
-        } else if(Input.GetKey(KeyCode.W) && dir != Vector2.down)
+        } 
+        else if((UDPReceiver.msg == "Up" || Input.GetKey(W)) && dir != Vector2.down)
         {
+            UDPReceiver.msg = "";
             dir = Vector2.up; 
-        } else if(Input.GetKey(KeyCode.D) && dir != Vector2.left)
+        } 
+        else if((UDPReceiver.msg == "Right" || Input.GetKey(D)) && dir != Vector2.left)
         {
+            UDPReceiver.msg = "";
             dir = Vector2.right;
-        } else if(Input.GetKey(KeyCode.A) && dir != Vector2.right)
+        } 
+        else if((UDPReceiver.msg == "Left" || Input.GetKey(A)) && dir != Vector2.right)
         {
+            UDPReceiver.msg = "";
             dir = Vector2.left;
         }
 
