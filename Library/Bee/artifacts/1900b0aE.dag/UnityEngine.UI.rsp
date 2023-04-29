@@ -128,6 +128,7 @@
 -define:PACKAGE_UITOOLKIT
 -define:CSHARP_7_OR_LATER
 -define:CSHARP_7_3_OR_NEWER
+-r:"Assets/Plugins/Mono.Data.Sqlite.dll"
 -r:"Assets/UnicornSpellerInterface/Unity.ItemReceiver.dll"
 -r:"C:/proiect/Unity/Proiect Colectiv/Library/PackageCache/com.unity.collab-proxy@1.15.17/Lib/Editor/PlasticSCM/log4netPlastic.dll"
 -r:"C:/proiect/Unity/Proiect Colectiv/Library/PackageCache/com.unity.collab-proxy@1.15.17/Lib/Editor/PlasticSCM/Unity.Plastic.Antlr3.Runtime.dll"

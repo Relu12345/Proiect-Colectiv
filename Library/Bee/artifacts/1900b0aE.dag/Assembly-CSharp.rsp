@@ -123,6 +123,7 @@
 -define:ENABLE_LEGACY_INPUT_MANAGER
 -define:CSHARP_7_OR_LATER
 -define:CSHARP_7_3_OR_NEWER
+-r:"Assets/Plugins/Mono.Data.Sqlite.dll"
 -r:"Assets/UnicornSpellerInterface/Unity.ItemReceiver.dll"
 -r:"C:/proiect/Unity/Proiect Colectiv/Library/PackageCache/com.unity.nuget.newtonsoft-json@3.0.2/Runtime/Newtonsoft.Json.dll"
 -r:"C:/proiect/Unity/Proiect Colectiv/Library/PackageCache/com.unity.testtools.codecoverage@1.1.1/lib/ReportGenerator/ReportGeneratorMerged.dll"
@@ -363,6 +364,9 @@
 "Assets/Scripts/buttonPress.cs"
 "Assets/Scripts/charController.cs"
 "Assets/Scripts/charInput.cs"
+"Assets/Scripts/highscore.cs"
+"Assets/Scripts/highscoreManager.cs"
+"Assets/Scripts/highscoreScript.cs"
 "Assets/Scripts/sceneChange.cs"
 "Assets/Scripts/sceneChangeArcade.cs"
 "Assets/Scripts/Snake.cs"

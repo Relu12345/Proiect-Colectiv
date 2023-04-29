@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using JetBrains.Annotations;
 using Unity.ItemRecever;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -13,8 +14,9 @@ using UnityEngine.UI;
 
 public class Snake : MonoBehaviour
 {
+    public static int finalPoints;
     public int xSize, ySize; 
-    public GameObject block, block_food; 
+    public GameObject block, block_food, highscoreWindow; 
 
     GameObject head, last_tail;
     List<GameObject> tail;
@@ -43,7 +45,7 @@ public class Snake : MonoBehaviour
     void Start()
     {
         Time.timeScale = 0;
-        timeBetweenMovements =2.25f;
+        timeBetweenMovements =0.75f;
         dir = Vector2.right;
         createGrid();
         createPlayer();
@@ -123,6 +125,7 @@ public class Snake : MonoBehaviour
         gameOverUI.SetActive(true);
         enableTimer = true;
         finalScore.text = "Points: " + tail.Count;
+        finalPoints = tail.Count;
         points.enabled = false;
         plaque.enabled = false;
         UDPReceiver.msg = "";
@@ -181,7 +184,11 @@ public class Snake : MonoBehaviour
         {
             ElapsedTime -= Time.deltaTime;
             if (ElapsedTime < 0)
-                restart();
+            {
+                highscoreWindow.SetActive(true);
+                gameOverUI.SetActive(false);
+                enableTimer = false;
+            }
         }
         if((UDPReceiver.msg == "Down" || Input.GetKey(S)) && dir != Vector2.up)
         {
