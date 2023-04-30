@@ -6,18 +6,19 @@ using Mono.Data.Sqlite;
 using System.Data.Common;
 using UnityEngine.UI;
 
-[SerializeField]
+[System.Serializable]
 public class highscoreManager : MonoBehaviour
 {
     private string connectionString;
 
-    private List<highscore> highscores = new List<highscore>();
+    public static List<highscore> highscores = new List<highscore>();
 
     public GameObject scorePrefab;
 
     public Transform scoreParent;
 
     public int topRanks;
+    public static int refRanks;
 
     public int saveScores;
 
@@ -30,6 +31,7 @@ public class highscoreManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        refRanks = topRanks;
         connectionString = "URI=file:" + Application.dataPath + "/DB/Highscore.db";
         CreateTable();
         DeleteExtraScore();
