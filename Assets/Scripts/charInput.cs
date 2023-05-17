@@ -13,33 +13,35 @@ public class charInput : MonoBehaviour
     KeyCode S = KeyCode.S;
     KeyCode D = KeyCode.D;
 
+    public static uint selection;
+
     private void Start()
     {
-        UDPReceiver.msg = "";
+        selection = 0;
         controller = GetComponent<charController>();
     }
 
     private void Update()
     {
-        if (UDPReceiver.msg == "Up" || Input.GetKey(W))
+        if (selection == 1 || Input.GetKey(W))
         {
-            UDPReceiver.msg = "";
             controller.MoveForward();
+            selection = 0;
         }
-        if (UDPReceiver.msg == "Down" || Input.GetKey(S))
+        if (selection == 2 || Input.GetKey(S))
         {
-            UDPReceiver.msg = "";
             controller.MoveBackward();
+            selection = 0;
         }
-        if (UDPReceiver.msg == "Left" || Input.GetKey(A))
+        if (selection == 3 || Input.GetKey(A))
         {
-            UDPReceiver.msg = "";
             controller.RotateLeft();
+            selection = 0;
         }
-        if (UDPReceiver.msg == "Right" || Input.GetKey(D))
+        if (selection == 4 || Input.GetKey(D))
         {
-            UDPReceiver.msg = "";
             controller.RotateRight();
+            selection = 0;
         }
     }
 }

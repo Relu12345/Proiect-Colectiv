@@ -16,13 +16,14 @@ public class Snake : MonoBehaviour
 {
     public static int finalPoints;
     public int xSize, ySize; 
-    public GameObject block, block_food, highscoreWindow; 
+    public GameObject block, block_food, highscoreWindow, mainCanvas, posmgr, arrows, btnBack; 
 
     GameObject head, last_tail;
     List<GameObject> tail;
     public Sprite blockSprite, appleSprite, bodySprite;
     public Sprite[] headSprites, tailSprites;
     private Vector3 oldPosition;
+    public static uint selection = 0; 
 
     KeyCode W = KeyCode.W;
     KeyCode A = KeyCode.A;
@@ -38,23 +39,25 @@ public class Snake : MonoBehaviour
 
     public void ResumeGame()
     {
+        mainCanvas.SetActive(true);
+        posmgr.SetActive(false);
+        arrows.SetActive(true);
         Time.timeScale = 1;
         this.transform.position = new Vector3(0, 0, -10);
     }
 
     void Start()
     {
+        btnBack.SetActive(true);
         Time.timeScale = 0;
-        timeBetweenMovements =0.75f;
+        timeBetweenMovements = 1.5f;
         dir = Vector2.right;
         createGrid();
         createPlayer();
-        spawnFood(); 
-        ResumeGame();
+        spawnFood();
         block.SetActive(false);
         block_food.SetActive(false);
         isAlive = true;
-        UDPReceiver.msg = "";
     }
 
     private Vector2 getRandomPos(){
@@ -123,16 +126,16 @@ public class Snake : MonoBehaviour
     private void gameOver(){
         isAlive = false; 
         gameOverUI.SetActive(true);
+        arrows.SetActive(false);
         enableTimer = true;
         finalScore.text = "Points: " + tail.Count;
         finalPoints = tail.Count;
         points.enabled = false;
         plaque.enabled = false;
-        UDPReceiver.msg = "";
     }
 
     public void restart(){
-        SceneManager.LoadScene("joculet 2d");
+        SceneManager.LoadScene(2);
     }
 
     public void change_head(Vector3 oldPosition, Vector3 newPosition)
@@ -190,24 +193,24 @@ public class Snake : MonoBehaviour
                 enableTimer = false;
             }
         }
-        if((UDPReceiver.msg == "Down" || Input.GetKey(S)) && dir != Vector2.up)
+        if ((selection == 2 || Input.GetKey(S)) && dir != Vector2.up)
         {
-            UDPReceiver.msg = "";
+            selection = 0;
             dir = Vector2.down;
-        } 
-        else if((UDPReceiver.msg == "Up" || Input.GetKey(W)) && dir != Vector2.down)
+        }
+        else if ((selection == 1 || Input.GetKey(W)) && dir != Vector2.down)
         {
-            UDPReceiver.msg = "";
+            selection = 0;
             dir = Vector2.up; 
         } 
-        else if((UDPReceiver.msg == "Right" || Input.GetKey(D)) && dir != Vector2.left)
+        else if((selection == 4 || Input.GetKey(D)) && dir != Vector2.left)
         {
-            UDPReceiver.msg = "";
+            selection = 0;
             dir = Vector2.right;
         } 
-        else if((UDPReceiver.msg == "Left" || Input.GetKey(A)) && dir != Vector2.right)
+        else if((selection == 3 || Input.GetKey(A)) && dir != Vector2.right)
         {
-            UDPReceiver.msg = "";
+            selection = 0;
             dir = Vector2.left;
         }
 

@@ -37,6 +37,15 @@ public class charController : MonoBehaviour
     public void MoveBackward() { if (AtRest) targetGridPos -= transform.forward * 2; }
  
 
+    public void InitPos()
+    {
+        transform.position = new Vector3(13, 1, 20);
+        targetGridPos = transform.position;
+        transform.Find("Arrows").gameObject.SetActive(true);
+        transform.Find("PosMgr").gameObject.SetActive(false);
+        transform.Find("Train").gameObject.SetActive(false);
+    }
+
     bool AtRest
     {
         get
