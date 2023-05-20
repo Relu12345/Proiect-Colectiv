@@ -6941,7 +6941,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7496021437437081519, guid: c7f072b7cff6497459abed6f21030fa2, type: 3}
       propertyPath: TrainingObject.Rotate
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7496021437437081519, guid: c7f072b7cff6497459abed6f21030fa2, type: 3}
       propertyPath: TrainingObject.DarkSprite

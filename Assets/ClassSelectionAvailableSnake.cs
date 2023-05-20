@@ -11,7 +11,7 @@ public class ClassSelectionAvailableSnake : MonoBehaviour
     public ERPFlashController2D _flashController;
     private Dictionary<int, SpriteRenderer> _selectedObjects;
 
-    private readonly int maxSelectionCounter = 5;
+    private readonly int maxSelectionCounter = 3;
 
     private uint selectionCounter = 0;
     private uint currentSelection = 0;

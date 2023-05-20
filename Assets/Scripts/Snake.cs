@@ -50,7 +50,7 @@ public class Snake : MonoBehaviour
     {
         btnBack.SetActive(true);
         Time.timeScale = 0;
-        timeBetweenMovements = 1.5f;
+        timeBetweenMovements = 2.5f;
         dir = Vector2.right;
         createGrid();
         createPlayer();
