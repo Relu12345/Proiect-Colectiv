@@ -32,7 +32,8 @@ public class highscoreManager : MonoBehaviour
     void Start()
     {
         refRanks = topRanks;
-        connectionString = "URI=file:" + Application.dataPath + "/DB/Highscore.db";
+        connectionString = "URI=file:" + Application.persistentDataPath + "/Highscore.db";
+        Debug.Log(connectionString);
         CreateTable();
         DeleteExtraScore();
         ShowScores();

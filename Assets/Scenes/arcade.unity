@@ -5472,6 +5472,14 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 321419418467205164, guid: c7f072b7cff6497459abed6f21030fa2, type: 3}
+      propertyPath: textAcc
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 321419418467205164, guid: c7f072b7cff6497459abed6f21030fa2, type: 3}
+      propertyPath: _startFlashing
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 678081353161210647, guid: c7f072b7cff6497459abed6f21030fa2, type: 3}
       propertyPath: m_LocalScale.x
       value: 2
@@ -5578,7 +5586,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7496021437437081519, guid: c7f072b7cff6497459abed6f21030fa2, type: 3}
       propertyPath: FlashtimeMs
-      value: 300
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 7496021437437081519, guid: c7f072b7cff6497459abed6f21030fa2, type: 3}
       propertyPath: NumberOfClasses
