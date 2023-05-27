@@ -55,6 +55,7 @@ public class Snake : MonoBehaviour
         createGrid();
         createPlayer();
         spawnFood();
+        ResumeGame();
         block.SetActive(false);
         block_food.SetActive(false);
         isAlive = true;
