@@ -6,11 +6,21 @@ using UnityEngine.SceneManagement;
 
 public class KeepObject : MonoBehaviour
 {
+    public charController CharController;
     private GameObject flashingObj;
     private string Old = "";
 
     private void Awake()
     {
+        KeepObject[] existingInstances = FindObjectsOfType<KeepObject>();
+        if (existingInstances.Length > 1)
+        {
+            // Destroy this instance if another one already exists
+            CharController.InitPos();
+            Destroy(gameObject);
+            return;
+        }
+
         DontDestroyOnLoad(gameObject);
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
@@ -79,7 +89,7 @@ public class KeepObject : MonoBehaviour
             flashingObj.SetActive(false);
             changeParameteres(flashingObj.GetComponent<ERPFlashController2D>());
             changeClassSelector("snake", "arcade");
-            Old = "";
+            Old = "arcade";
         }
 
         else if (scene.name == "arcade" && Old == "2048")
