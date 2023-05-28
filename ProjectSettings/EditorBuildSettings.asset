@@ -15,6 +15,6 @@ EditorBuildSettings:
     path: Assets/Scenes/snake.unity
     guid: d9f1a223ad2f0b946acffe5bd98b0dd3
   - enabled: 1
-    path: Assets/Scenes/ori-doi.unity
+    path: Assets/Scenes/oridoi.unity
     guid: 7725c212e4ef243418130f07c34fbf32
   m_configObjects: {}

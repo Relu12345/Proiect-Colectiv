@@ -7651,7 +7651,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7496021437437081519, guid: c7f072b7cff6497459abed6f21030fa2, type: 3}
       propertyPath: FlashtimeMs
-      value: 50
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 7496021437437081519, guid: c7f072b7cff6497459abed6f21030fa2, type: 3}
       propertyPath: NumberOfClasses
@@ -7815,6 +7815,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 703fc315ec08b1245b0deacce72d81dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _flashController: {fileID: 1104416388}
+--- !u!114 &1104416392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1104416387}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51298c4f94c9bd34aa1b27cc9dcf7a77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _flashController: {fileID: 1104416388}
@@ -14210,6 +14223,19 @@ MonoBehaviour:
   m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 41a58c5abcde2904398fda9fa257fa0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _flashController: {fileID: 1948019413}
+--- !u!114 &1948019420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1948019411}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51298c4f94c9bd34aa1b27cc9dcf7a77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _flashController: {fileID: 1948019413}

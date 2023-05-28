@@ -18,22 +18,25 @@ public class Manager2048 : MonoBehaviour
     [SerializeField] private List<BlockType> _types;
     [SerializeField] private float _travelTime = 0.2f;
     [SerializeField] private int _winCondition = 2048;
-    [SerializeField] private int _points = 0;
-    [SerializeField] private TextMeshPro _pointsText, _loseScreenPoints;
+    [SerializeField] private TextMeshPro _finalPointsText, _loseScreenPoints;
+    [SerializeField] private GameObject gameOverUI, highscoreWindow;
 
-    [SerializeField] private GameObject _loseScreen;
+    public static int _finalPoints = 0;
+    public static uint selection = 0;
 
     private List<Node2048> _nodes;
     private List<Block2048> _blocks;
     private GameState _state;
     private int _round;
+    private bool enableTimer = false;
+    private float ElapsedTime = 5.0f;
 
     private BlockType GetBlockTypeByValue(int value) => _types.First(t => t.Value == value);
 
     void Start()
     {
         ChangeState(GameState.GenerateLevel);
-        _pointsText.text = "Points: " + _points.ToString();
+        _finalPointsText.text = "Points: " + _finalPoints.ToString();
     }
 
     private void ChangeState(GameState newState)
@@ -53,9 +56,10 @@ public class Manager2048 : MonoBehaviour
             case GameState.Moving:
                 break;
             case GameState.Lose:
-                _loseScreen.SetActive(true);
+                gameOverUI.SetActive(true);
+                enableTimer = true;
                 Camera.main.transform.position = new Vector3(15, 0, -10);
-                _loseScreenPoints.text = _pointsText.text;
+                _loseScreenPoints.text = _finalPointsText.text;
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
@@ -64,17 +68,39 @@ public class Manager2048 : MonoBehaviour
 
     void Update()
     {
+        if (enableTimer)
+        {
+            ElapsedTime -= Time.deltaTime;
+            if (ElapsedTime < 0)
+            {
+                highscoreWindow.SetActive(true);
+                gameOverUI.SetActive(false);
+                enableTimer = false;
+            }
+        }
         if (_state != GameState.WaitingInput) 
             return;
 
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
-            Shift(Vector2.left);
-        if (Input.GetKeyDown(KeyCode.RightArrow))
-            Shift(Vector2.right);
-        if (Input.GetKeyDown(KeyCode.UpArrow))
-            Shift(Vector2.up);
-        if (Input.GetKeyDown(KeyCode.DownArrow))
+        if ((selection == 2 || Input.GetKey(KeyCode.S)))
+        {
+            selection = 0;
             Shift(Vector2.down);
+        }
+        else if ((selection == 1 || Input.GetKey(KeyCode.W)))
+        {
+            selection = 0;
+            Shift(Vector2.up);
+        }
+        else if ((selection == 4 || Input.GetKey(KeyCode.D)))
+        {
+            selection = 0;
+            Shift(Vector2.right);
+        }
+        else if ((selection == 3 || Input.GetKey(KeyCode.A)))
+        {
+            selection = 0;
+            Shift(Vector2.left);
+        }
     }
 
     void GenerateGrid()
@@ -122,8 +148,8 @@ public class Manager2048 : MonoBehaviour
     {
         var block = Instantiate(_blockPrefab, node.Pos, Quaternion.identity);
         block.Init(GetBlockTypeByValue(value));
-        _points += value;
-        _pointsText.text = "Points: " + _points.ToString();
+        _finalPoints += value;
+        _finalPointsText.text = "Points: " + _finalPoints.ToString();
         block.SetBlock(node);
         _blocks.Add(block);
     }
@@ -183,8 +209,8 @@ public class Manager2048 : MonoBehaviour
     void MergeBlocks(Block2048 baseBlock, Block2048 mergingBlock)
     {
         SpawnBlock(baseBlock.Node, baseBlock.Value * 2);
-        _points -= baseBlock.Value * 2;
-        _pointsText.text = "Points: " + _points.ToString();
+        _finalPoints -= baseBlock.Value * 2;
+        _finalPointsText.text = "Points: " + _finalPoints.ToString();
         RemoveBlock(baseBlock);
         RemoveBlock(mergingBlock);
     }

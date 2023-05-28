@@ -5,6 +5,7 @@ using System.Data;
 using Mono.Data.Sqlite;
 using System.Data.Common;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 [System.Serializable]
 public class highscoreManager : MonoBehaviour
@@ -28,12 +29,23 @@ public class highscoreManager : MonoBehaviour
 
     public GameObject exitButton;
 
+    private string game = "";
+
+    public static int finalPoints;
+
+    Scene currentScene;
+
+
     // Start is called before the first frame update
     void Start()
     {
         refRanks = topRanks;
         connectionString = "URI=file:" + Application.persistentDataPath + "/Highscore.db";
         Debug.Log(connectionString);
+
+        currentScene = SceneManager.GetActiveScene();
+        game = currentScene.name;
+
         CreateTable();
         DeleteExtraScore();
         ShowScores();
@@ -47,12 +59,11 @@ public class highscoreManager : MonoBehaviour
 
             using (IDbCommand dbCmd = conn.CreateCommand())
             {
-                string query = "CREATE TABLE if not exists snake (ID INTEGER NOT NULL UNIQUE,Name TEXT NOT NULL,Score INTEGER NOT NULL,PRIMARY KEY(ID AUTOINCREMENT))";
+                string query = "CREATE TABLE if not exists " + game + "(ID INTEGER NOT NULL UNIQUE,Name TEXT NOT NULL,Score INTEGER NOT NULL,PRIMARY KEY(ID AUTOINCREMENT))";
 
                 dbCmd.CommandText = query;
 
                 dbCmd.ExecuteScalar();
-
                 conn.Close();
             }
         }
@@ -60,9 +71,22 @@ public class highscoreManager : MonoBehaviour
 
     public void EnterName()
     {
+        switch (currentScene.name)
+        {
+            case "snake":
+                finalPoints = Snake.finalPoints;
+                Snake.finalPoints = 0;
+                break;
+            case "oridoi":
+                finalPoints = Manager2048._finalPoints;
+                Manager2048._finalPoints = 0;
+                break;
+        }
+
         if (enterName.text != string.Empty)
         {
-            int score = Snake.finalPoints;
+
+            int score = finalPoints;
             InsertScore(enterName.text, score);
             Debug.Log(enterName.text + " " + score);
             enterName.text = string.Empty;
@@ -97,7 +121,7 @@ public class highscoreManager : MonoBehaviour
 
                 using (IDbCommand dbCmd = conn.CreateCommand())
                 {
-                    string query = string.Format("INSERT INTO snake(Name,Score) VALUES(\"{0}\", {1})", name, newScore);
+                    string query = string.Format("INSERT INTO " + game + "(Name,Score) VALUES(\"{0}\", {1})", name, newScore);
 
                     dbCmd.CommandText = query;
 
@@ -118,7 +142,7 @@ public class highscoreManager : MonoBehaviour
 
             using (IDbCommand dbCmd = conn.CreateCommand())
             {
-                string query = "SELECT * FROM snake";
+                string query = "SELECT * FROM " + game;
 
                 dbCmd.CommandText = query;
 
@@ -146,7 +170,7 @@ public class highscoreManager : MonoBehaviour
 
             using (IDbCommand dbCmd = conn.CreateCommand())
             {
-                string query = string.Format("DELETE FROM snake WHERE ID={0}", id);
+                string query = string.Format("DELETE FROM " + game + " WHERE ID={0}", id);
 
                 dbCmd.CommandText = query;
 
@@ -200,7 +224,7 @@ public class highscoreManager : MonoBehaviour
                 {
                     for (int i = 0; i < deleteCount; i++)
                     {
-                        string query = string.Format("DELETE FROM snake WHERE ID={0}", highscores[i].ID);
+                        string query = string.Format("DELETE FROM " + game + " WHERE ID={0}", highscores[i].ID);
 
                         dbCmd.CommandText = query;
 
@@ -213,3 +237,5 @@ public class highscoreManager : MonoBehaviour
         }
     }
 }
+
+

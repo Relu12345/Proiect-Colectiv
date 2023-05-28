@@ -42,15 +42,15 @@ public class KeepObject : MonoBehaviour
             gameObject.GetComponent<ClassSelectionAvailableArcade>().enabled = true;
             gameObject.GetComponent<ClassSelectionAvailableSnake>().enabled = false;
         }
-        else if (Old == "arcade" && New == "2048")
+        else if (Old == "arcade" && New == "oridoi")
         {
             gameObject.GetComponent<ClassSelectionAvailableArcade>().enabled = false;
-            gameObject.GetComponent<ClassSelectionAvailableSnake>().enabled = true;
+            gameObject.GetComponent<ClassSelectionAvailable2048>().enabled = true;
         }
-        else if (Old == "2048" && New == "arcade")
+        else if (Old == "oridoi" && New == "arcade")
         {
             gameObject.GetComponent<ClassSelectionAvailableArcade>().enabled = true;
-            gameObject.GetComponent<ClassSelectionAvailableSnake>().enabled = false;
+            gameObject.GetComponent<ClassSelectionAvailable2048>().enabled = false;
         }
     }
 
@@ -74,13 +74,13 @@ public class KeepObject : MonoBehaviour
             Old = "snake";
         }
 
-        if (scene.name == "2048")
+        if (scene.name == "oridoi")
         {
             flashingObj = GameObject.Find("bciManager2D_2048");
             flashingObj.SetActive(false);
             changeParameteres(flashingObj.GetComponent<ERPFlashController2D>());
-            changeClassSelector("arcade", "2048");
-            Old = "2048";
+            changeClassSelector("arcade", "oridoi");
+            Old = "oridoi";
         }
 
         else if(scene.name == "arcade" && Old == "snake")
@@ -92,9 +92,13 @@ public class KeepObject : MonoBehaviour
             Old = "arcade";
         }
 
-        else if (scene.name == "arcade" && Old == "2048")
+        else if (scene.name == "arcade" && Old == "oridoi")
         {
-
+            flashingObj = GameObject.Find("bciManager2D_ref");
+            flashingObj.SetActive(false);
+            changeParameteres(flashingObj.GetComponent<ERPFlashController2D>());
+            changeClassSelector("oridoi", "arcade");
+            Old = "arcade";
         }
 
         else if (scene.name == "arcade" && Old == "")
