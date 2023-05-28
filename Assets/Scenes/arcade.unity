@@ -12291,8 +12291,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1697119804}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -0.003, y: 0.675, z: 0.010733}
+  m_LocalScale: {x: 0.18193424, y: 0.18193424, z: 0.18193424}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 889752159}
@@ -13284,6 +13284,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6535445890525988831, guid: 9437dac6606e73c43b196fc45b0a1df3, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1955486286}
+    - target: {fileID: 8206160292704873660, guid: 9437dac6606e73c43b196fc45b0a1df3, type: 3}
+      propertyPath: m_Looping
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8206160292704873660, guid: 9437dac6606e73c43b196fc45b0a1df3, type: 3}
+      propertyPath: m_PlaybackSpeed
+      value: 2.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 9437dac6606e73c43b196fc45b0a1df3, type: 3}
@@ -14018,6 +14030,14 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 653413293}
     m_Modifications:
+    - target: {fileID: 639525462956658135, guid: 6877d9c5e8281194aa92ec836dacdf85, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 178
+      objectReference: {fileID: 0}
+    - target: {fileID: 639525462956658135, guid: 6877d9c5e8281194aa92ec836dacdf85, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -45
+      objectReference: {fileID: 0}
     - target: {fileID: 738244842418731568, guid: 6877d9c5e8281194aa92ec836dacdf85, type: 3}
       propertyPath: m_Name
       value: ArcadeMachine01
