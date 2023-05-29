@@ -81,6 +81,10 @@ public class highscoreManager : MonoBehaviour
                 finalPoints = Manager2048._finalPoints;
                 Manager2048._finalPoints = 0;
                 break;
+            case "tetris":
+                finalPoints = TetrisBlock.points;
+                TetrisBlock.points = 0;
+                break;
         }
 
         if (enterName.text != string.Empty)

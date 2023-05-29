@@ -52,6 +52,16 @@ public class KeepObject : MonoBehaviour
             gameObject.GetComponent<ClassSelectionAvailableArcade>().enabled = true;
             gameObject.GetComponent<ClassSelectionAvailable2048>().enabled = false;
         }
+        else if (Old == "arcade" && New == "tetris")
+        {
+            gameObject.GetComponent<ClassSelectionAvailableArcade>().enabled = false;
+            gameObject.GetComponent<ClassSelectionAvailableTetris>().enabled = true;
+        }
+        else if (Old == "tetris" && New == "arcade")
+        {
+            gameObject.GetComponent<ClassSelectionAvailableArcade>().enabled = true;
+            gameObject.GetComponent<ClassSelectionAvailableTetris>().enabled = false;
+        }
     }
 
     private void changeParameteres(ERPFlashController2D flasher)
@@ -74,13 +84,22 @@ public class KeepObject : MonoBehaviour
             Old = "snake";
         }
 
-        if (scene.name == "oridoi")
+        else if (scene.name == "oridoi")
         {
             flashingObj = GameObject.Find("bciManager2D_2048");
             flashingObj.SetActive(false);
             changeParameteres(flashingObj.GetComponent<ERPFlashController2D>());
             changeClassSelector("arcade", "oridoi");
             Old = "oridoi";
+        }
+
+        else if (scene.name == "tetris")
+        {
+            flashingObj = GameObject.Find("bciManager2D_tetris");
+            flashingObj.SetActive(false);
+            changeParameteres(flashingObj.GetComponent<ERPFlashController2D>());
+            changeClassSelector("arcade", "tetris");
+            Old = "tetris";
         }
 
         else if(scene.name == "arcade" && Old == "snake")
@@ -98,6 +117,15 @@ public class KeepObject : MonoBehaviour
             flashingObj.SetActive(false);
             changeParameteres(flashingObj.GetComponent<ERPFlashController2D>());
             changeClassSelector("oridoi", "arcade");
+            Old = "arcade";
+        }
+
+        else if (scene.name == "arcade" && Old == "tetris")
+        {
+            flashingObj = GameObject.Find("bciManager2D_ref");
+            flashingObj.SetActive(false);
+            changeParameteres(flashingObj.GetComponent<ERPFlashController2D>());
+            changeClassSelector("tetris", "arcade");
             Old = "arcade";
         }
 

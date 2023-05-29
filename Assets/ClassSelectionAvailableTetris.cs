@@ -11,7 +11,7 @@ public class ClassSelectionAvailableTetris : MonoBehaviour
     public ERPFlashController2D _flashController;
     private Dictionary<int, SpriteRenderer> _selectedObjects;
 
-    private readonly int maxSelectionCounter = 3;
+    private readonly int maxSelectionCounter = 1;
 
     private uint selectionCounter = 0;
     private uint currentSelection = 0;
@@ -62,7 +62,7 @@ public class ClassSelectionAvailableTetris : MonoBehaviour
                 {
                     if (selectionCounter >= maxSelectionCounter)
                     {
-                        Snake.selection = _selectedClass;
+                        TetrisBlock.selection = _selectedClass;
                         currentSelection = 0;
                         selectionCounter = 0;
                     }

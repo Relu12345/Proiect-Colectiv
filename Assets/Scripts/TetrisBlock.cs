@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class TetrisBlock : MonoBehaviour
@@ -9,7 +10,10 @@ public class TetrisBlock : MonoBehaviour
     public float fallTime = 0.8f;
     public static int height = 20;
     public static int width = 10;
-    private static Transform[,] grid = new Transform[width, height];
+    public static Transform[,] grid = new Transform[width, height];
+    public static int points = 0;
+    public static uint selection = 0;
+
 
     void Start()
     {
@@ -18,27 +22,36 @@ public class TetrisBlock : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.LeftArrow))
+        if (selection == 3 || Input.GetKeyDown(KeyCode.A))
         {
             transform.position += new Vector3(-1, 0, 0);
             if (!ValidMove())
                 transform.position -= new Vector3(-1, 0, 0);
+            selection = 0;
         }
-        else if (Input.GetKeyDown(KeyCode.RightArrow))
+        else if (selection == 4 || Input.GetKeyDown(KeyCode.D))
         {
             transform.position += new Vector3(1, 0, 0);
             if (!ValidMove())
                 transform.position -= new Vector3(1, 0, 0);
+            selection = 0;
         }
-        else if (Input.GetKeyDown(KeyCode.UpArrow))
+        else if (selection == 1 || Input.GetKeyDown(KeyCode.W))
         {
             transform.RotateAround(transform.TransformPoint(rotationPoint), new Vector3(0, 0, 1), 90);
             if(!ValidMove())
                 transform.RotateAround(transform.TransformPoint(rotationPoint), new Vector3(0, 0, 1), -90);
+            selection = 0;
         }
 
-        if (Time.time - previousTime > (Input.GetKey(KeyCode.DownArrow) ? fallTime / 10 : fallTime))
+        if (Time.time - previousTime > fallTime)
         {
+            if (selection == 3 || Input.GetKey(KeyCode.S))
+            {
+                fallTime /= 10;
+                selection = 0;
+            }
+
             transform.position += new Vector3(0, -1, 0);
             if (!ValidMove())
             {
@@ -54,14 +67,35 @@ public class TetrisBlock : MonoBehaviour
 
     void CheckForLines()
     {
+        int n = 0;
         for (int i = height - 1; i >= 0; i--)
         {
             if (HasLine(i))
             {
                 DeleteLine(i);
                 RowDown(i);
+                n++;
             }
         }
+        switch (n)
+        {
+            case 1:
+                points += 100;
+                break;
+            case 2:
+                points += 400;
+                break;
+            case 3:
+                points += 900;
+                break;
+            case 4:
+                points += 2000;
+                break;
+            default:
+                points += (n * 500);
+                break;
+        }
+        
     }
 
     bool HasLine(int i)
@@ -110,7 +144,7 @@ public class TetrisBlock : MonoBehaviour
         }
     }
 
-    bool ValidMove()
+    public bool ValidMove()
     {
         foreach (Transform children in transform)
         {
